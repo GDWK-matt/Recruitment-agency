@@ -2,10 +2,12 @@
 #define AGENTSTVO_H
 
 #include <iostream>
+#include <iomanip>
 #include <vector>
 #include <string>
 #include <fstream>
 #include <cstring>
+#include <algorithm>
 
 class Soiskatel {
 public:
@@ -27,9 +29,8 @@ public:
     std::vector<Soiskatel> soiskateli;
     void addSoiskatel();
     void showSoiskateli();
+    void updateSoiskatel(int index);
     void deleteSoiskatel(int index);
-    void searchByAge(int age);
-    void searchByExperience(int experience);
     void searchBySector(const std::string& sector);
     void saveToFile();
     void loadFromFile();

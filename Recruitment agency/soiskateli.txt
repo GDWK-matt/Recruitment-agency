@@ -1,2 +1,6 @@
-Vasya	20	 5	Povar	vasr
-Ivan	20	 2	slesal	adsfafw
+Natalya	32	 10	Arhitector	Natl@gail.com
+Alexander	24	 5	Arhitector	Al@gmail.com
+Petr	30	 13	Buhgalter	ptr@gmai.com
+Vitaliy	35	 10	Povar	vitakiy@gmail.com
+Vasya	20	 5	Povar	Vasya@gmail.com
+Petr	19	 3	Povar	petr@gmail.com
