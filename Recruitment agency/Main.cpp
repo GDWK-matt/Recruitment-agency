@@ -1,106 +1,158 @@
-#include <iostream>
 #include "agentstvo.h"
+#include "auth.h"
 
-int main() {
-    Agentstvo agency;
-    agency.loadFromFile();
+void adminMenu(Agentstvo& agency, AuthSystem& auth) {
+    while (true) {
+        std::cout << "\n=== ADMIN MENU ===\n"
+            << "1. Pokazat vsekh soiskateley\n"
+            << "2. Dobavit soiskatelya\n"
+            << "3. Udalit soiskatelya\n"
+            << "4. Izmenit dannye\n"
+            << "5. Dobavit novogo polzovatelya\n"
+            << "6. Udalit polzovatelya\n"
+            << "7. Vykhod\n"
+            << "Vybor: ";
 
-    while (true) { // Цикл главного меню
         int choice;
-        std::cout << "Vybiraite rol:\n1. Polzovatel\n2. Admin\n3. Vykhod iz programmy\n";
+        while (!(std::cin >> choice) || (choice < 1 || choice > 7)) {
+            std::cout << "Oshibka vvoda. Pozhaluysta, vvedite 1 - 7: ";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+        if (choice == 7) break;
+        
+            switch (choice) {
+            case 1: {
+                std::cout << std::string(100, '=') << "\n";
+                agency.showSoiskateli();
+                break;
+            }
+            case 2: {
+                std::cout << std::string(100, '=') << "\n";
+                agency.addSoiskatel();
+                break;
+            }
+            case 3: {
+                std::cout << std::string(100, '=') << "\n";
+                if (agency.soiskateli.empty()) {
+                    std::cout << "Net soiskateley dlya udaleniyu.\n";
+                    break;
+                }
+                int index;
+                agency.showSoiskateli();
+                std::cout << "Vvedite nomer soiskatelya dlya udaleniyu: ";
+                while (!(std::cin >> index) || index < 1 || index > static_cast<int>(agency.soiskateli.size())) {
+                    std::cout << "Oshibka vvida. Pozhaluysta, vvedite korrektnyy nomer soiskatelya: ";
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                }
+                agency.deleteSoiskatel(index - 1);
+                std::cout << std::string(100, '=') << "\n";
+                break;
+            }
+            case 4: {
+                std::cout << std::string(100, '=') << "\n";
+                int ind;
+                std::cout << "Vvedite index soiskatelya, dannie kotorogo hotite izmenit: ";
+                std::cin >> ind;
+                agency.updateSoiskatel(ind - 1);
+                break;
+            }
+            case 5: {
+                std::cout << std::string(100, '=') << "\n";
+                std::string login, password;
+                std::cout << "Vvedite login: ";
+                std::cin >> login;
+                std::cout << "Vvedite password: ";
+                std::cin >> password;
+                std::cout << "Dostup (1 - admin, 0 - user): ";
+                int access;
+                std::cin >> access;
+                if (auth.addUser(login, password, access == 1)) {
+                    std::cout << "Polzovatel uspeshno dobavlen!\n";
+                }
+                else {
+                    std::cout << "Oshibka: login uzhe sushchestvuet!\n";
+                }
+                break;
+            }
+            case 6: {
+                std::cout << std::string(100, '=') << "\n";
+                std::cout << "Vvedite login dlya udaleniya: ";
+                std::string login;
+                std::cin >> login;
+                if (auth.removeUser(login)) {
+                    std::cout << std::string(100, '=') << "\n";
+                    std::cout << "Polzovatel uspeshno udalen!\n";
+                    std::cout << std::string(100, '=') << "\n";
+                }
+                else {
+                    std::cout << std::string(100, '=') << "\n";
+                    std::cout << "Oshibka: polzovatel ne nayden!\n";
+                    std::cout << std::string(100, '=') << "\n";
+                }
+                break;
+            }
+            default:
+                std::cout << "Nekorrektny vybor!\n";
+                std::cout << std::string(100, '=') << "\n";
+            }
+        
+    }
+}
 
-        while (!(std::cin >> choice) || (choice < 1 || choice > 3)) {
-            std::cout << "Oshibka vvida. Pozhaluysta, vvedite 1, 2 ili 3: ";
+void userMenu(Agentstvo& agency){ 
+    while (true) {
+        int employerChoice;
+        std::cout << "\n=== USER MENU ===\n"
+            <<"1. Pokazat' vsekh soiskateley \n"
+            <<"2. Poisk po ...\n"
+            <<"3. Vozvrat v glavnoe menyu\n"
+            << "Vybor: ";
+
+        while (!(std::cin >> employerChoice) || (employerChoice < 1 || employerChoice > 3)) {
+            std::cout << "Oshibka vvoda. Pozhaluysta, vvedite 1, 2 ili 3: ";
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
 
-        if (choice == 3) { // Полный выход из программы
-            std::cout << "Zavershenie raboty...\n";
-            break;
+        if (employerChoice == 3) break; // Возвращаемся в главное меню
+
+        switch (employerChoice) {
+        case 1: std::cout << std::string(100, '=') << "\n"; agency.showSoiskateli(); break;
+        case 2: std::cout << std::string(100, '=') << "\n"; agency.searchPo(); break;
+      
         }
+    }
+}
 
-        switch (choice) {
-        case 1: { // Пользователь
-            while (true) {
-                int employerChoice;
-                std::cout << "\nVybiraite deystviye:\n1. Pokazat' vsekh soiskateley\n2. Poisk po Dolzhnosti\n3. Vozvrat v glavnoe menyu\n";
-                while (!(std::cin >> employerChoice) || (employerChoice < 1 || employerChoice > 3)) {
-                    std::cout << "Oshibka vvida. Pozhaluysta, vvedite 1, 2 ili 3: ";
-                    std::cin.clear();
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    int main() {
+        AuthSystem auth;
+        Agentstvo agency;
+        agency.loadFromFile();
+
+        while (true) {
+            std::string login, password;
+            std::cout << "\n=== VHOD V SYSTEMU ===\n"
+                << "Login: ";
+            std::cin >> login;
+            std::cout << "Password: ";
+            std::cin >> password;
+
+            bool isAdmin;
+            if (auth.checkAuth(login, password, isAdmin)) {
+                if (isAdmin) {
+                    adminMenu(agency, auth);
                 }
-
-                if (employerChoice == 3) break; // Возвращаемся в главное меню
-
-                switch (employerChoice) {
-                case 1: agency.showSoiskateli(); break;
-                case 2: {
-                    std::string sector;
-                    std::cout << "Vvedite dolzhnost (Nazvanie dolzhnosti vvodite s ZAGLAVNOI bykvi!): ";
-                    std::cin >> sector;
-                    agency.searchBySector(sector);
-                    break;
-                }
-                }
-            }
-            break;
-        }
-
-        case 2: { // Администратор
-            const std::string adminPassword = "123";
-            std::string inputPassword;
-            std::cout << "Vvedite parol: ";
-            std::cin >> inputPassword;
-
-            if (inputPassword == adminPassword) {
-                while (true) {
-                    int adminChoice;
-                    std::cout << "\n1. Pokazat' vsekh soiskateley\n2. Dobavit' soiskatelya\n3. Udalit' soiskatelya\n4. Izmenit dannye\n5. Vozvrat v glavnoe menyu\n";
-                    while (!(std::cin >> adminChoice) || (adminChoice < 1 || adminChoice > 5)) {
-                        std::cout << "Oshibka vvida. Pozhaluysta, vvedite chislo ot 1 do 5: ";
-                        std::cin.clear();
-                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    }
-
-                    if (adminChoice == 5) break; // Возвращаемся в главное меню
-
-                    switch (adminChoice) {
-                    case 1: agency.showSoiskateli(); break;
-                    case 2: agency.addSoiskatel(); break;
-                    case 3: {
-                        if (agency.soiskateli.empty()) {
-                            std::cout << "Net soiskateley dlya udaleniyu.\n";
-                            break;
-                        }
-                        int index;
-                        agency.showSoiskateli();
-                        std::cout << "Vvedite nomer soiskatelya dlya udaleniyu: ";
-                        while (!(std::cin >> index) || index < 1 || index > static_cast<int>(agency.soiskateli.size())) {
-                            std::cout << "Oshibka vvida. Pozhaluysta, vvedite korrektnyy nomer soiskatelya: ";
-                            std::cin.clear();
-                            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                        }
-                        agency.deleteSoiskatel(index - 1);
-                        break;
-                    }
-                    case 4: {
-                        int ind;
-                        std::cout << "Vvedite index soiskatelya, dannie kotorogo hotite izmenit: ";
-                        std::cin >> ind;
-                        agency.updateSoiskatel(ind - 1);
-                        break;
-                    }
-                    }
+                else {
+                    userMenu(agency);
                 }
             }
             else {
-                std::cout << "Nevernyy parol!\n";
+                std::cout << "Nepravilny login ili parol!\n";
             }
-            break;
         }
-        }
-    }
 
-    return 0;
-}
+        return 0;
+    }

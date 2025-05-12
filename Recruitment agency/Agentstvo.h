@@ -1,6 +1,3 @@
-#ifndef AGENTSTVO_H
-#define AGENTSTVO_H
-
 #include <iostream>
 #include <iomanip>
 #include <vector>
@@ -13,18 +10,16 @@ class Soiskatel {
 public:
     std::string name;
     int age;
+    bool education;
     int experience;
     std::string sector;
     std::string email;
 
-    Soiskatel(std::string n, int a, int exp, std::string s, std::string e)
-        : name(n), age(a), experience(exp), sector(s), email(e) {}
+    Soiskatel(std::string n, int a, bool edu, int exp, std::string s, std::string e)
+        : name(n), age(a), education(edu), experience(exp), sector(s), email(e) {}
 };
 
 class Agentstvo {
-private:
-   
-
 public: 
     std::vector<Soiskatel> soiskateli;
     void addSoiskatel();
@@ -32,8 +27,11 @@ public:
     void updateSoiskatel(int index);
     void deleteSoiskatel(int index);
     void searchBySector(const std::string& sector);
+    void searchByOpyt(int minexp);
+    void searchByEducation(bool educ);
+    void searchPo();
     void saveToFile();
     void loadFromFile();
 };
 
-#endif // AGENTSTVO_H
+

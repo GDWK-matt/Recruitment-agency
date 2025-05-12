@@ -1,6 +1,42 @@
-Natalya	32	 10	Arhitector	Natl@gail.com
-Alexander	24	 5	Arhitector	Al@gmail.com
-Petr	30	 13	Buhgalter	ptr@gmai.com
-Vitaliy	35	 10	Povar	vitakiy@gmail.com
-Vasya	20	 5	Povar	Vasya@gmail.com
-Petr	19	 3	Povar	petr@gmail.com
+Petr
+40
+1
+7
+Arhitector
+pt@gmail.com
+Alex
+34
+1
+7
+Arhitector
+alex@gmail.com
+Matvej
+25
+0
+6
+Programmist
+m@gmail.com
+Ivan
+32
+1
+5
+Programmist
+ivan@gmail.com
+Vasiiy
+22
+0
+5
+Programmist
+vas@gmail.com
+Vladimir
+24
+1
+5
+Stroitel
+iva@gmail.com
+Ilya
+31
+1
+10
+Barista
+ilyaha@gmail.com
