@@ -1,2 +1,5 @@
 Matvej 2356 1
-zarub 12345 0
+wd 5555 1
+qwr 1111 1
+OAO_VitebskGaz e 0
+Iva 1111 0

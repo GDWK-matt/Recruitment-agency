@@ -130,10 +130,13 @@
   <ItemGroup>
     <ClInclude Include="Agentstvo.h" />
     <ClInclude Include="auth.h" />
+    <ClInclude Include="Menu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Agentstvo.cpp" />
+    <ClCompile Include="auth.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Menu.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
